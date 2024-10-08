@@ -1,0 +1,69 @@
+Kafka is open source, distributed, event streaming platform. Kafka is designed to handle data that is constently being generated 
+and need to be processed as it comes in,without delay.
+
+Zookeper - Zookeper monitor the health of kafka cluster.
+
+
+
+  		kafka Producer
+			|		
+			|		  
+			|		Kafka Connect
+	  	kafka Cluster ------->  |Source|
+Kafka	  	|KB1 , KB2|   <-------  |Sink|
+Stream	<--->  	|KB3 , KB4|
+			|
+			|
+			|
+		  Kafka Consumer
+
+
+Kafka Broker - a dedicated sapce on server or a server on which kafka is running.
+Kafka Producer - A part of kafka which put the data into cluster
+Kafka Consumer - A part of kafka which retrive the data from the kafka cluster.   
+Kafka Connect -  To retrive or conuse the data from the other sources.
+Kafka Stream -   which is used for the data transformation.
+
+Command to run kafka
+
+Note - Go to the kafka/bin/window folder and then run below command
+
+
+To start Zookeper - zookeeper-server-start.bat ..\..\config\zookeeper.properties
+
+To start kafka server - kafka-server-start.bat ..\..\config\server.properties
+
+To create a new topic - kafka-topics.bat --create --topic my-topic --bootstrap-server localhost:9092 --replication-factor 3 --partitions 3
+
+To start kafka Producer - kafka-console-producer.bat --broker-list localhost:9092 --topic my-topic
+
+To start Kafka Consumer - kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic my-topic --from-beginning
+
+
+
+
+
+
+Kafka Topic - Kafka topic is a type of container in which similar events are store.
+Partition - A topic is split into several parts which are known as the partition of the topic. Partition is where actually the message is located.
+
+
+Note - We can send message into partition with key and without key. When sending the data with key, odering will be maintained as they will be in 
+       the same partition.
+       Without key we can not gurantee the odering the message as consumer poll the message from all the partition at the same time.4
+
+
+Note - When a consumer group reads messages from the topic, each member of the group maintains its own offset and updates it as it consumes message.
+
+__consumer_offset - __consumer_offset is a built-in topic in Apache Kafka that  keeps track of the latest offset committed for each partition of each
+			  consumer group.
+			  The topic is internal to the Kafka cluster and not meant to be read or writtem to directly by clients. Instead, the offdet information
+			  is stored in the topic and updated by the Kafka broker to reflect the position of each consumer in each partiotion.
+
+			  The information in __consumer_offset is used by kafka to maintain the reliability of the consumer groups and to ensure that message are
+			  not lost or duplicated.
+
+Note - When a consumer joins a consumer group, it send sa join request to the group cordinator. the group coordinator determines which partition the consumer
+       should assigned based on the number of consumers in the group and the current assignment of partition to the consumers.
+	 The group coordinator then sends a new assignment of the partiotion to the consumer, which includes the set of partiotns that the cosumer is responsible
+       for consuming. And consumer starts consumng data from the assigned partiotions.
