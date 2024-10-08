@@ -1,0 +1,80 @@
+Downloading MongoDB
+
+1. Visit the official MongoDB website: https://www.mongodb.com/try/download/community
+2. Choose the appropriate version for your Windows system (32-bit or 64-bit).
+3. Download the MSI installer.
+
+Installing MongoDB
+1. Run the downloaded MSI installer.
+2. Follow the on-screen instructions.
+3. Important: During the installation, you'll be asked to choose the installation directory and data directory. Select    appropriate paths for both. The data directory is where MongoDB stores its data files.
+
+Running MongoDB as a Service
+1. Open a command prompt as an administrator.
+2. Navigate to the bin directory of your MongoDB installation (e.g., cd C:\Program Files\MongoDB\Server\4.4\bin).
+3. Run the following command to install MongoDB as a service:
+   Bash
+   net start mongodb
+
+-> Install MongoDB Compass for Gui Interface
+-> Install Mongo Shell Download for CLI Interface
+	- Run Mongosh.exe file
+	- Add Connection String : mongodb://localhost:27017
+
+
+
+Connecting to MongoDB
+	mongo: Connects to the default MongoDB instance on localhost:27017.
+	mongo <hostname>:<port>: Connects to a MongoDB instance on a specific host and port.
+	use <database_name>: Switches to a specific database.
+
+Creating and Dropping Databases and Collections
+	Implicit creation: Databases are created automatically when you insert data into them.
+	use [Database_name] : to create database
+	db.dropDatabase(): Drops the current database.
+	db.createCollection("collection_name"): Creates a new collection.
+	db.dropCollection("collection_name"): Drops a collection.
+
+Collections:
+	show collections: to show collections in database.
+
+Inserting Documents
+	db.collection_name.insertOne({field1: value1, field2: value2}): Inserts a single document.
+	db.collection_name.insertMany([document1, document2, ...]): Inserts multiple documents.
+
+Querying Documents
+	db.collection_name.find(): Returns all documents in a collection.
+	db.collection_name.find({field1: value1}): Finds documents matching a specific query.
+	db.collection_name.findOne(): Returns the first document in a collection.
+
+Updating Documents
+	db.collection_name.updateOne({query}, {update}, options): Updates a single document.
+	db.collection_name.updateMany({query}, {update}, options): Updates multiple documents.
+
+Deleting Documents
+	db.collection_name.deleteOne({query}): Deletes a single document.
+	db.collection_name.deleteMany({query}): Deletes multiple documents.
+
+Counting Documents
+	db.collection_name.countDocuments(): Counts the number of documents in a collection.
+
+
+Example
+
+// Connect to MongoDB
+mongo
+
+// Create a database named "mydatabase"
+use mydatabase
+
+// Create a collection named "customers"
+db.createCollection("customers")
+
+// Insert a document
+db.customers.insertOne({ name: "John Doe", age: 30, city: "New York" })
+
+// Find all customers
+db.customers.find()
+
+// Update John Doe's age
+db.customers.updateOne({ name: "John Doe" }, { $set: { age: 31 } })

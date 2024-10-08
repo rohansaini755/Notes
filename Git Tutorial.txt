@@ -1,0 +1,109 @@
+Git - It is version control System. It is developed to co-ordinate the work among the developers.
+
+Git Bash - Git bash is primarily a tool for interacting to local repository on your machine.
+
+Working Directory ---> Staging Area(preview of the code) ---> Repository
+
+Branch - repository diverges from main working directory. Or sub part of the main repository.
+
+
+Starting the git :-
+
+1: create a project folder and open bash shell here.
+2: git init - to start the project into git; That creates a .git hidden file into our project.
+3: create some file or copy your initialize project in this folder.
+4: git status : If your run "git status" command here that will return that some files are untracked.
+5: git add . (git add "file name"): this command will push all the file into staging area.
+6: git commit -m "first commit" : That will commit all the changes in got repository.
+
+Note : Let suppose if your changes something in a file. And run git status command, than you will see that a "file is modified" like comment. But after you realised that that change was wrong. In that case your can run
+"git checkout 'file name' " command to erase all the changes in that file.
+
+
+Command :-
+
+for setting username - git config --global user.name "your name"
+for setting email - git config --global user.email "your email"
+for listing the global changes - git config --list
+
+git clone: Creates a local copy of a remote repository.
+git push: Sends local commits to the remote repository.
+git pull: Fetches changes from the remote and merges them into the local branch.
+git fetch: Downloads new data from a remote repository without integrating it into the local working copy.
+git Rm: for removing file.
+git Diff: shows changes between commit, working tree etc.
+git ignore: use for intentionally untrack the line.
+
+
+U - Untracked
+A - added to stagged area
+C - Committed
+M - Modified committed file
+
+
+create a new repository on the command line
+echo "# Real-time-collaboration" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/rohansaini755/Real-time-collaboration.git
+git push -u origin main
+
+
+push an existing repository from the command line
+git remote add origin https://github.com/rohansaini755/Real-time-colloboration.git
+git branch -M main
+git push -u origin main
+
+
+git config --global -e              :- for editing the user information
+git log --oneline                   :- log of previous committed
+
+git reset --hard HEAD~1             :- Remove all the last 1 commit changes from the current head
+          --soft
+          --mixed
+
+
+
+Branching : 
+
+git branch branch_name    :- to initialize the branch of git main
+git switch branch_name    :- switch current branch to another
+git push -u origin [branch-name] : to push the branch code to the GitHub repository in branch.
+git merge branch_name     :- to merge any branch code (first you have to switch to main branch)
+git log --graph           :- the complete steps log
+git log --oneline         :- complete log in simplify form
+git log                   :- complete log in details
+git branch -d branch_name :- to delete any branch
+git stash                 :- to stash the changes
+git stash apply           :- to apply the changes into branch from stash area
+git stash clear           :- to clear the changes from the stash area
+
+
+
+Branch Merging Techniques
+
+Fast Forward Merge
+Fast-forward merge occurs when the target branch has not diverged from the source branch.
+In this case, Git simply moves the target branch pointer to the latest commit in the source branch. 
+This strategy is simple and keeps the commit history linear.
+
+Three-Way Merge
+A three-way merge involves comparing three commits: the two branch tips and their common ancestor.
+Git uses this information to create a new merge commit that restore the differences.
+
+Recursive Merge:
+Recursive merge is Git’s default strategy for non-trivial merges. It handles cases where branches have diverged 
+by creating a new merge commit. This commit records the combined changes from both branches,
+preserving the history of both lines of development.
+
+Squash and Merge
+Squash and merge squashes all the commits from a feature branch into a single commit before merging into the target branch. 
+This strategy simplifies the commit history, making it easier to follow.
+
+6. Rebase and Merge
+Rebase and merge rewrites the commit history of the feature branch, placing it on top of the main branch before merging. 
+This results in a linear commit history without merge commits
+
+Use Case: Useful when dealing with more complex merges involving multiple branches and several changes.

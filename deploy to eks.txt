@@ -1,0 +1,31 @@
+
+1 :- install aws cli
+2:- Login with aws account in aws cli using command "aws configure"
+3:- create repository in elastic container registory through aws management console.
+4: and run all the necessary command(login--->create dockerimage---->push image to ecr)
+5: create a cluster using aws ui or eksctl command
+6: create a cluster in eks using ("eksctl create cluster --name rohan-cluster --version 1.28 --nodes=1 --node-type=t2.small --region us-east-2")
+7: update the kubeconfig file from local cluster to aws cluster(aws eks --region us-east-1 update-kubeconfig --name eks-cluster-02)
+
+eksctl create cluster --name rohan-cluster-004 --resources-vpc-config subnetIds=subnet-id1,subnet-id2,subnet-id3 --version 1.28 --nodes=1 --node-type=t2.small --region us-east-1
+
+eksctl create cluster --name rohan-cluster-005 --vpc-private-subnets subnet-id1,subnet-id2,subnet-id3 --nodegroup-name standard-workers --version 1.28 --nodes=1 --node-type=t2.small --region us-east-1
+
+
+
+
+8: Create a yaml file containing deployment and service object.
+9: go to same directory and run (kubectl apply -f spring-boot-app-deployment.yaml .)
+10: check running pods (kubectl get pods)
+11: check services(kubectl get svc)
+
+
+
+
+----------Installation of eksctl on window-----------
+1: First install chocolatey to install eksctl(Chocolatey is a package manager for Windows, similar to package managers like apt for Debian-based Linux distributions or brew for macOS.) using command
+ "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" in windows powershell as administrator.
+
+2: check version using "choco -v"
+3: install eksctl(choco install eksctl)
+4: add eksctl.exe file path to environment variable which is normally stored in "C:\ProgramData\chocolatey\bin" if installed through chocolatey.

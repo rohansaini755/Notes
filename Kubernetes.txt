@@ -1,0 +1,110 @@
+-----------------Reference videos---------
+https://www.youtube.com/watch?v=gMmcRbd8L5Y&t=1522s
+
+with aws
+
+https://youtu.be/mVSFHgItaa4?si=zM-MgfxS_Rdk7Hrc
+
+
+
+
+Kubernetes helps us to run and manage application in containers. It was developed by google in 2014, also known as k8s. It is Open source container orchestration tool that operates the deployment, management and scaling of container based application in different environment like physical, virtual and cloud native computing foundations.
+
+There are several reason to use Kubernetes like easy scaling, self healing, portability and automation. It is very helpful to running microservices and distributed systems.
+
+Example :- You have couple of applications to deploy, you can package them into a container and run it on a server containing Docker engine or any other engine. Now there is a drawback is that it is running on a single server so, it at that point any failure occurs, it become an application failure, to handle the single point of failure, google introduces Kubernetes to scale applications.
+
+K8s components :- 
+
+POD , Node, Cluster, Replication controller replica set, service, deployment, secrets, config map, ETCD
+
+
+
+                                                                                         Cluster
+                              ---------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                      Node-1                                                                            Node-2
+                                         -----------------------------------------------------------------------------------------------        ---------------------------------
+                                                                    101.62.01 <------------------------------> 101.62.02                             
+                                             
+                                                                 POD-1                                           POD-2                                   POD-1
+                                            -------------------------------------------------           ------------------------------                 --------------
+                              
+                                                Container-1              Container-2                             Container-1
+                                               ---------------         ---------------                        ------------------                       ---------------
+                              
+                                                                                                                                                           
+                                                                                                                                                            POD-2
+                                                ---------------         ---------------                       ------------------                        ---------------
+                                         
+
+                                                              Container-3                                          Container-2
+                                                            ---------------                                    ------------------                        --------------
+
+
+
+                                                            ---------------                                    -------------------
+                                             ----------------------------------------------------
+
+
+                                           ----------------------------------------------------------------------------------------------        -----------------------------------
+                             --------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Replication controller :- 
+	The main purpose of the replication controller is to ensure that a specific number of pod replicas are running at a particular time or not. If there are multiple pods are present at a time and are not being used then it is the job of replication controller to terminate that extra pods. If there are very few pods and there is no available pods to do work then it is the responsibility of replication controller to create more pod. The pods which are created by the replication controller are replaced automatically if they fail, unlike the manually created pods.
+
+Services :-
+	Services provides a stable ip addresses and dns name to pods, enabling communication to different parts of your application or with external clients. Services also provide basic load balancing by distributing traffic across the pods in services.
+
+Deployment :-
+	A Kubernetes Deployment tells Kubernetes how to create or modify the instances of replica pods. Deployment can help to efficiently scale pods, enable the rollout of updated codes in a controlled manner.
+
+ConfigMap and Secrets :-
+	ConfigMap is used to store non-sensitive configuration data in key value pair. This data can be used by pods to configure application. Secrets are used to store sensitive data, such as password, key, tokens in a secure way. As data is stored in ConfigMap in key value pair, the data is base64 encoded in secrets.
+
+ETCD :-
+	Kubernetes use etcd as key value data store. It store the configuration of Kubernetes cluster in etcd. This also include information about current state of pods, Nodes, Services, ConfigMaps, secrets and more.
+
+
+
+Kubernetes Architecture :-
+	In Kubernetes there should be at least one cluster. And in one cluster there should be at least one master node and one worker node. Where master node manage all the worker nodes. If any pod down in a node, Immediately it will assign a new pod with new ip pods are down inside node.
+
+
+
+
+
+---------------------Setup Kubernetes on windows :-----------------------
+
+1:- Download Kubectl.exe & minikube.exe file from official website.
+2:- Setup environment path variable.
+3: Run command "kubectl version" & "minikube verison" for version
+4: Setup driver :- minikube start --driver=docker
+
+
+
+
+Kubectl :- Kubectl is a command line interface tool used to interact with Kubernetes cluster. It allow us to deploy and manage applications, inspect and manage cluster resources and view logs and events.
+Exp : kubectl get pods.
+
+Minikube :- minikube is a tool that allow you to run a local Kubernetes cluster on personal computer. It is a great way to start learning 
+Kubernetes for development and testing purpose without needing access to a full-scale cloud Kubernetes cluster.
+
+
+
+
+kubectl apply -f mongodb-deployment.yaml
+kubectl apply -f kafka-deployment.yaml
+kubectl apply -f spring-boot-app-deployment.yaml
+
+
+minikube service spring-boot-app --url
+
+
+
+
+
+kubectl delete -f spring-boot-app-deployment.yaml
+kubectl delete -f kafka-deployment.yaml
+kubectl delete -f mongodb-deployment.yaml
+minikube stop

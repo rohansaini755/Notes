@@ -1,0 +1,13 @@
+bin/kafka-topics.sh --create --bootstrap-server b-2.chatcluster1.rq5mc0.c18.kafka.us-east-1.amazonaws.com:9092,b-1.chatcluster1.rq5mc0.c18.kafka.us-east-1.amazonaws.com:9092,b-3.chatcluster1.rq5mc0.c18.kafka.us-east-1.amazonaws.com:9092 --replication-factor 3 --partitions 3 --topic chat-messages-2
+
+bin/kafka-topics.sh --list --bootstrap-server b-2.chatcluster1.rq5mc0.c18.kafka.us-east-1.amazonaws.com:9092,b-1.chatcluster1.rq5mc0.c18.kafka.us-east-1.amazonaws.com:9092,b-3.chatcluster1.rq5mc0.c18.kafka.us-east-1.amazonaws.com:9092
+
+
+
+bin/kafka-console-producer.sh --bootstrap-server b-2.chatcluster1.rq5mc0.c18.kafka.us-east-1.amazonaws.com:9092,b-1.chatcluster1.rq5mc0.c18.kafka.us-east-1.amazonaws.com:9092,b-3.chatcluster1.rq5mc0.c18.kafka.us-east-1.amazonaws.com:9092 --topic chat-messages-2
+
+
+bin/kafka-console-consumer.sh --bootstrap-server b-2.chatcluster1.rq5mc0.c18.kafka.us-east-1.amazonaws.com:9092,b-1.chatcluster1.rq5mc0.c18.kafka.us-east-1.amazonaws.com:9092,b-3.chatcluster1.rq5mc0.c18.kafka.us-east-1.amazonaws.com:9092 --topic chat-messages-2 --from-beginning
+
+
+aws kafka describe-cluster --cluster-arn arn:aws:kafka:us-east-1:058264245905:cluster/chat-cluster-1/2c672c74-cc27-4bdd-a1f6-4d29a925700f-18

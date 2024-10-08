@@ -1,0 +1,128 @@
+
+Spring Boot
+
+1 - Install java
+2 - Instal Spring Boot (git clone https://github.com/spring-guides/gs-spring-boot.git) -> Ensure Git should be install on     your system
+    - To check the version of spring boot
+	- Go to gs-spring-boot folder -> open pom.xml file -> between <parent> tag you will find the version
+3 - Good Practice to install Maven into your System and setup the environment variable
+4 - Use Spring initializer to quickly make spring maven project -> select "spring web" dependency in your project
+5 - download the zip file, extract it and cop in your editor
+6 - In yourproject/src/main/java you will find yourprojectApplication.java. By run this file you can start run your project
+7 - if mvn install on your system
+	- mvn validate : to validate your pom file
+	- mvn test : to test your application
+	- mvn compile : to compile your application
+	- mvn package : to make jar file of your application(that will store in "target" directory in your project)
+	                Also by going to target directory you can run your project by using command
+			java -jar yourproject-0.0.0-SNAPSHOT.jar
+	- mvn install : 
+8 - if maven is not in your system than, in your project there is a director mvnw. By using that you can run above all command
+    - ./mvnw validate
+    and so on
+
+
+
+Spring Boot:
+
+~ IOC Container -A Structure in spring boot that provide the objects of a class of a application. User don't need to create the objects of that class manually. By adding @component to the class, we can add that class into IOC container
+
+~ Application context - Application context is a way to achieve IOC container concept
+
+~ Bean - Every object in IOC container is called BEAN.
+
+~ @Autowired - this annotation is used whenever we need the been of a class
+
+~ @SpringBootApplication : This annotation is used above the main class of a application. After adding this annotation, the compiler consider this package as a base class.This annotation work as three annotation.
+   1. @Configuration
+   2. @EnableAutoConfiguration
+   3. @ComponentScan
+
+~ @RequestMapping("") - This annotation gives a path to whole class methods
+
+~ @GetMapping("") / @PostMapping("") / @PutMapping("") / @DeleteMapping("")- This anotation gives a path to a class method.
+
+~@Document - Map the java class to mongo dB collection
+
+~@DBref - This annotation is used to connect two entities in spring boot
+
+
+ORM(Object Relation Mapping) :-
+
+It is a technique which is used to map java objects to Database tables. Exp : Consider a java class and a database table user. Orm framework like Hibernate map the fields of java class to the column of the database.
+
+JPA - It is a way to achieve ORM, includes interfaces and annotations that you use in your java class, requires a persistent provider (orm tools) for implementation. To use JPA, you need a persistent provider. A persistence provider is a specific implementation of the JPA specification. Examples of JPA persistence provider include Hibernate, Eclipse Link, ad OpenJPA. These providers implement the JPA interface and provide the underlying functionality to interact with database.
+
+Note: JPA is primarily designed for working with relational databases, where data is stored in tables with a predefined schema. MongoDB, on the other hand, is a NoSQL database that used a different data model, typically base on collections of documents, which are schema-less or have flexible schema. This fundamental difference in data models and storage structures is why "JPA is not used with MongoDB".
+	In the case of MongoDB, you don't have a traditionally JPA persistence provider. MongoDB is a NoSQL database, and Spring Data MongoDB serves as the "persistance provider" for MongoDB.
+	Query Methods DSL and Criteria API are two different ways to interact with a MongoDB database. Query Methods DSL is a simple and convenient way to create queries based on methods naming conventions, while the criteria API offers a more dynamic and programmatic approach for building complex and custom queries.
+
+
+
+
+
+-----------Here is a concise guide on how to integrate MongoDB in a Spring Boot application in 10 steps:--------------
+
+Step 1: Set Up Your Spring Boot Project:
+Create a new Spring Boot project using your preferred IDE or by using Spring Initializer. Include the necessary dependencies, including the MongoDB driver.
+
+Step 2: Define a MongoDB Configuration:
+Go to the Resources folder and in application.properties mention (Create a configuration class with the necessary configurations for connecting to MongoDB, including) the host, port, and database name.
+
+Step 3: Define a MongoDB Entity:
+Create a POJO (Plain Old Java Object) class to represent your data model. Annotate this class with the necessary MongoDB annotations to define the collection name and field mappings.
+
+Step 4: Create a Repository Interface:
+Define a repository interface that extends the appropriate MongoDB repository interface. This interface will handle the CRUD (Create, Read, Update, Delete) operations for your MongoDB entity.
+
+Step 5: Implement Service Layer:
+Create a service class to handle business logic and interact with the MongoDB repository. Define methods for data manipulation and retrieval.
+
+Step 6: Implement Data Initialization (Optional):
+If required, initialize data in the database during application start-up using data initialization scripts or methods.
+
+Step 7: Implement Controller for REST API:
+Create a controller class to define REST endpoints for interacting with the MongoDB data. Implement methods for handling HTTP requests, utilizing the service layer.
+
+Step 8: Test Endpoints:
+Test the REST API endpoints using tools like Postman or any other HTTP client to ensure the proper functioning of the MongoDB integration.
+
+Step 9: Run and Test the Application:
+Run the Spring Boot application and verify the integration by performing CRUD operations through the defined REST API endpoints.
+
+Step 10: Handle Exception and Error Scenarios:
+Implement error handling mechanisms to gracefully manage exceptions and errors that might occur during MongoDB integration. Implement proper logging and error response handling.
+
+
+
+Controller----->Service------>Repository
+
+Repository - Repository is a user defined package in which we create classes to use the functionality of predefined interface MongoRepository<T,id>, which 	
+	     provides the inbuilt method to preform curd operations.
+
+
+ResponseEntity : The ResponseEntity class is a part of spring framework and commonly used in spring boot to customize the http response woth response three digit code.
+
+Lombok : Project Lombok is a java library tool that is used to minimize/remove the boilerplate code by just using some annotations. But you might be thinking that nowadays, everyone uses IDEs which provides an option for generating these boilerplate codes, then what is the use of Lombok. Whenever we use IDEs to generate these boilerplate codes, we just save ourselves from writing all these codes but it is actually present in our source code and increases the LOC (lines of code), and reduces maintainability and readability. On the other hand, Lombok adds all these boilerplate codes at the compile time in the “.class” file and not in our source code. Let us compare our source code with and without using Lombok.
+
+
+
+Adding Security to the endpoints:
+
+1 - Add "spring-boot-starter-security" dependencies in pom.xml file
+2 - make a configuration class to use securityFilterChain class to enable authentication at the endpoints.
+3 - As your frontend is not ready then disable the session and CSRF token functionality.
+4 - Then create userDetailIml class that implements UserDetailService class that is internally called by AuthenticationManager.
+4 - Then use the SecurityContextholder to authenticate the request in any controller in which you wanna enable the security.
+
+
+Authentication with JWT(JSON Web Token) :-
+
+JWT is a way to securely transfer the data between parties. JWT is a string pf three parts, separated by dots.(Header , payload , signature). 
+Header consists of two parts, first is type of token(JWT), and second is hashing algorithm.
+The Signature ensure that the whole msg was not changed along the way.
+
+1 - Make a JwtFilter class that will run before the normal authentication. first create JwtFilter class and then add use addFilterbefore() for adding jwtFilter.
+2 - Make JwtUtil class that will implement all the method to create, settime and expire like methods into it.
+
+Request -----> basic authentication class called -----> JwtFilter called -----> basic authentication happen ------> service called
