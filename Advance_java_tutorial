@@ -1,0 +1,530 @@
+Built-in methods to compare two objects.
+
+- compareTo (calculate the difference between two object data and return integer value)
+    - isAfter (Check that object comes after or not, and return Boolean value)
+    - isBefore (Check that object comes before or not, an return Boolean value)
+    - isEqual (Check the object's value is equal or not, and return Boolean value)
+
+
+    Note - "Dates object are immutable."
+
+
+    -----------BASE64-------------
+
+    ASCII - American standard code for information interchange.
+
+
+    Binary to text encoding. Take three characters of input and produce four characters of output.
+    -----Working------
+    1- Produce 8 bit ascii value of every character in a word with a group of 3 characters.
+    2- Concate all bits.
+    3- Divide all bits into a group of 6 bits.
+    4- Produce 4 new group bits.
+    5- Convert that 4 bits group into ascii value.
+
+    --> java.util.Base64
+
+#Exp-   String encode = Base64.getEncoder().encodeToString("Bye".getBytes());
+    System.out.println(encode);
+
+    String decode = new String(Base64.getDecoder().decode(encode));
+System.out.println(decode);
+
+
+-------Static methods in Interface------
+
+
+    Note - Before java8, there was no any feature of static method in interfaces. But after java8, we can use static methods in interfaces.
+
+-> Not necessary to implement parent class's static methods in child class.
+    -> Static method cannot be overridden in interface.
+
+
+
+    -----Default method--------
+
+    Uses-
+
+    -> Default methods in  interfaces
+    -> Default in switch statements
+	    -> Default access modifier(just the name, not an actual keyword)
+	    -> Default to give annotations a default value
+
+	    Default methods in interfaces
+
+	    -> Allows for a non-static method on an interface to have a body.
+		    -> Not necessary to implement parent class's default methods in child class.
+		    -> Default method can be overridden in class that implements the interface.
+
+
+#Exp :-
+		    interface Fold {
+		static void fold() {
+				System.out.println("folding static method");
+			}
+			public default void folding() {
+				System.out.println("folding default method");
+			}
+
+		}
+public class Main implements Fold
+{
+
+	public static void main(String[] args) {
+		Fold.fold();
+		Main ob1 = new Main();
+		ob1.folding();
+		ob1.fold2();
+	}
+}
+
+
+Note- If the code clashes between two interface default method in child class(with same default function name),than it became necessary to add
+function implementation in child class.
+
+
+
+---------Functional interface---------
+
+To make an interface FunctionalInterface use "@FunctionalInterface" annotation before Interface.
+
+-> An interface with only one abstract method.
+    -> Can contain default and static methods(They're not abstract)
+    -> Can contain abstract methods that match the method signature in object since they have an implementation coming from object.
+    -> Must have for functional programming.
+
+    Common built-in functional interfaces
+
+    Predicate<T>, Supplier<T>, Consumer<T>, Function<T,R>
+
+
+
+
+    -----------Lambda Function------------
+
+    The syntax of lambda expression is used to implement functional interface.
+
+
+    interface Test {
+// String test();
+int test2(String str);
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+
+//		Lambda function with no parameter
+
+// 		Test tester1 = () -> "Test class is working";
+// 		tester1.test();
+
+//		Lambda function with 1 parameter
+
+//		Test tester2 = (str) -> str.length();
+
+//		Lambda function with 1 parameter and function body
+
+		Test tester3 = (str) -> { String nstr = str + "hello"; return nstr.length();}
+		System.out.println(tester3.test2("Rohan"));
+
+
+	}
+}
+
+
+Note
+1-> Lambda function can also be used as a argument to a function.
+2-> Lambdas don't have their own scope, but share the scope of the enclosing environment.
+3-> Thus, lambdas cannot define identifier name that already exist in the enclosing scope.
+4-> Fields and methods of the enclosing scope can be accessed from within the lambda
+5-> Local variables of the enclosing scope can be accessed if they are final or effectively final.
+
+
+-> Example of 3
+
+@FunctionalInterface
+interface Calculator {
+    int calculate(int a, int b);
+}
+
+public class Main
+{
+public static void main(String[] args) {
+		int c = 5;
+		Calculator calculator = (c, b) -> c + b;
+	}
+}
+
+// The error
+Main.java:13: error: variable c is already defined in method main(String[])
+Calculator calculator = (c, b) -> c + b;
+                        ^
+
+                        -> Example of 5
+
+                        public class Main
+{
+	public static void main(String[] args) {
+		int c = 5;
+		c = 6;
+		Calculator calculator = (a, b) -> c + b;
+	}
+}
+
+//The error
+Compilation failed due to following error(s).Main.java:14: error: local variables referenced from a lambda expression must be final or effectively final
+Calculator calculator = (a, b) -> c + b;
+                        ^
+
+
+                        ->Lambda as a function parameter
+
+
+                        @FunctionalInterface
+                        interface Tester {
+	public int test(String str);
+}
+
+
+public class Main
+{
+	public static void main(String[] args) {
+
+		System.out.println(mainFunction(str -> str.length(),"rohan"));
+	}
+
+	public static int mainFunction(Tester ob, String str) {
+		return ob.test(str);
+	}
+
+
+}
+
+
+
+-------------Stream Api in java-----------------(A new feature introduced in java
+
+        The Stream Api is used to perform functional-style operations on sequence of elements, such as collections, array or other data source. It allows for concise and efficient data manipulation, supporting operations like filtering, mapping, reducing, and sorting.
+
+        -> WHY USE STREAM API OVER ANY OTHER METHOD IN JAVA
+        Memory Efficient - When you create a duplicate array list, you allocate additional memory for storing all element of the  original list. But on the other side, 	Streams are lazy and do not store intermediate results in memory. Operations are applied on-the-fly without creating a copy of the data.
+
+	        Simplicity - For performing different operations, in case of any other method, multiple loops may be used. But in case of stream, it allows chaining of 	mulple operations in a single, seamless pipeline, improving both readability and maintainability.
+
+				        Parallelism Support - Stream offer built-in support for parallelism.
+
+
+					        Exp-
+
+					        import java.util.*;
+					        import java.util.stream.*;
+					        public class Main
+				{
+					public static void main(String[] args) {
+							String []names = {"Rohan","Saini"};
+							List<String> nameList = new ArrayList<>(Arrays.asList(names));
+
+							//create stream based on Arrays
+
+							Stream<String> arrayStream = Arrays.stream(names);
+
+							// create stream based on collection
+
+							Stream<String> listStream = nameList.stream();
+
+							//create stream using generate NoSuchMethodError
+
+							Stream<Integer> generateStream = Stream.generate(() -> 5);
+
+							// create stream using iterate NoSuchMethodError
+
+							Stream<Integer> iterateStream = Stream.iterate(1, x -> x+2);
+						}
+					}
+
+
+->LAZY STREAMS
+    ~ Not  executed until a terminal operation is called on the stream.
+    ~ We need a terminal operation to complete the stream pipeline.
+    ~ only one terminal operation can be called on a stream.
+
+    Note -> You cannot reuse a terminated stream.
+
+    -> Common terminal operations
+
+    forEach, min, count, max, allMatch, anyMatch, collect and reduce, noneMatch, filter, map, flatMap
+
+    -> Optional<T> min(Comparator<? super T> comparator)
+    -> Optional<T> max(Comparator<? super T> comparator)
+    -> long count()
+    -> boolean allMatch(Predicate<? super T> predicate) and same for anyMatch and noneMatch.
+    -> Stream<T> filter(Predicate<? super T> predicate)
+    -> <R> Stream<R> map(Function<? super T,? extends R> mapper
+    -> Stream<T> peek(Consumer<? super T> action)
+    -> Stream<T> limit(long maxSize)
+    -> Stream<T> skip(long n)
+    -> Stream<T> distinct()
+    -> Stream<T> sorted()
+    -> Stream<T> sorted(Comparator<? super T> comparator)
+
+
+
+
+    Example :-
+
+
+
+    import java.util.*;
+    import java.util.List.*;
+    import java.util.stream.*;
+    public class Main
+{
+public static void main(String[] args) {
+		String []arr = {"rohan", "saini", "rjhwe", " aefrg"};
+		ArrayList<String> nameList = new ArrayList<>(Arrays.asList(arr));
+
+		// forEach method doesn't return anything.
+		Arrays.stream(arr).forEach(name -> System.out.println(name));
+
+		// min method return a Optional object with generic type
+
+		Optional<String> ob = Arrays.stream(arr).min((a,b) -> a.compareTo(b));
+
+		/*  In below case a stream of element '5' will be generate but min()
+		function is not able to fetch the minimum of stream of 5.
+		It means that program will never be terminated. */
+
+		// Optional<Integer> gs = Stream.generate(() -> 5).min((a,b) -> a.compareTo(b));
+
+		/* allMatch function match all the element to the given condition. if all is according to
+		the given condition than it will return true, otherwise false.*/
+
+		boolean allMatchresult = Arrays.stream(arr).allMatch(name -> !name.isEmpty());
+		System.out.println(allMatchresult);
+
+		/* To calculate that any matched string is there ot not in the string*/
+
+		boolean anyMatchResult = Arrays.stream(arr).anyMatch(name -> name.equals("rohan"));
+		System.out.println("Rohan name is in the list:" + anyMatchResult);
+
+		/* Filter method is used to apply filter on stram and give filtered data. Using collect method
+		can be converted to any data structre to store.It return a stream.*/
+
+		List<String> listNamesLongerThan5 = Arrays.stream(arr).filter(name -> name.length() >= 5).collect(Collectors.toList());
+		System.out.println(listNamesLongerThan5);
+
+		Arrays.stream(arr).filter(name -> name.startsWith("r")).forEach(s -> System.out.println(s));
+
+		/* To do some opration on data and reduce the data into end result*/
+
+		int [] nums = {1,2,3,4,5};
+		int total = Arrays.stream(nums).reduce(0, (x,y) -> x+y);
+		System.out.println(total);
+
+
+		/*map returns a new stream with all the elements changed using the provided Function.*/
+		nameList.stream().map(s -> s + " student").forEach(s -> System.out.println(s));
+
+		// The filter method will give an error for above logic, because filter method take boolean as an argument.
+
+		// nameList.stream().filter(s -> s + " as").forEach(s -> System.out.println(s));
+
+		/* Returns a stream with the elements of all collections on the stream as seperate elements on the stream,
+		removing the collection layer.*/
+
+		String [][] names2d= {arr, arr};
+
+		String[] ansstr = Stream.of(names2d).flatMap(arrt -> Stream.of(arrt)).toArray(size -> new String[size]);
+		for(String s : ansstr) {
+			System.out.println(s);
+		}
+
+		/*Peek method return a stream with all the elements on the stream. The specified action will be executed for
+		all elements.*/
+
+		/*For above example we need a seperate loop toprint the result of flatmap. But with peek method we can directly
+		print the result.*/
+
+		String [] anstr1 = Stream.of(names2d).flatMap(arrt -> Stream.of(arrt))
+		                   .peek(s -> System.out.println("peek:"+s)).
+		                   toArray(size -> new String[size]);
+
+		/*limit method returns a stream with the specified number of elements.It prints all element after skip
+		n elements*/
+
+		Arrays.stream(arr).skip(1).forEach(s -> System.out.println("skip:" + s));
+
+		/*skip method returns a stream with the specified number of elements skipped.This return only first n element.*/
+
+		Arrays.stream(arr).limit(1).forEach(s -> System.out.println("limit:" + s));
+
+		/*Note :- Both limit and skip can be used together.*/
+
+
+		/*Stream method returns a stream with only unique elements.*/
+		long noOfDistinctElement = Arrays.stream(arr).distinct().count();
+		System.out.println("noOfDistinctElement:" + noOfDistinctElement);
+
+		/*sorted function return a stream of natural sorted order or comparatator specified order.*/
+
+		Arrays.stream(arr).sorted().forEach(s -> System.out.println("sorted:" + s));
+
+		// System.out.println(gs);
+	}
+}
+
+
+
+
+-----------Parallel Processing----------
+
+-> Use .parallelStream() instead of .stream()
+    -> Use .parallel() method on a stream
+
+    Example :
+
+    import java.util.stream.Stream;
+    import java.util.*;
+    public class Main
+{
+	public static void main(String[] args) {
+		String [] arr = {"rohan","saini"};
+		List<String> nameList = new ArrayList<>(Arrays.asList(arr));
+
+		long st = System.currentTimeMillis();
+
+		nameList.parallelStream().filter(s -> s.startsWith("r"))
+		.forEach(s -> System.out.println(s));
+
+		long et = System.currentTimeMillis();
+
+		System.out.println(et-st);
+	}
+}
+
+
+
+--------Optional class-------------------
+
+A  container object that may or may not contain a non-null value.
+
+Note :- Optional is for returning only. It should not be used as a parameter or field type.
+
+
+import java.util.stream.Stream;
+import java.util.*;
+
+class User{
+String name;
+
+User(String u) {
+		name = u;
+	}
+}
+public class Main
+{
+	public static void main(String[] args) {
+		Optional<User> optional = Optional.of(new User("rohan"));
+		System.out.println("rohan optional:" + optional.isPresent());
+
+		/*
+		The below code give error, because optional class doesn't handle null value by default.
+		*/
+
+		/*Exception in thread "main" java.lang.NullPointerException
+		at java.base/java.util.Objects.requireNonNull(Objects.java:221)
+		at java.base/java.util.Optional.<init>(Optional.java:107)
+		at java.base/java.util.Optional.of(Optional.java:120)
+		at Main.main(Main.java:19)
+		*/
+
+
+		User user = null;
+		// Optional<User> optional2 = Optional.of(user);
+		// System.out.println(optional2.isPresent());
+
+
+		Optional<User> optional1 = Optional.ofNullable(user);
+		System.out.println("null optiona:" + optional1.isPresent());
+
+		Optional<User> optional3 = Optional.empty();
+		System.out.println("Empty optioanl:" + optional3.isPresent());
+	}
+}
+
+
+-> Method on optional
+
+    Note :- If we simply get a value from optional, it may give NoSuchElementException with the get method. So first we have to check using isPresent method. But that is a  old methos to handle the null values. More methods with different options are available.
+
+    1: isPresent - Check weather a non-null value is in the Optional.
+    2: orElse - Check weather a non null value is in the Optional. If not a default value is specified. This way no exception occur for getting the value.
+    3: orElseGet - Similar to orElse. But instead of specifying a value, a Supplier is specified. The supplier will be used for getting the value in case of empty Optional
+		    4: filter - If the element doesn't match the predicate, it returns an empty Optional.
+		    5: map - Specifies operation to be applied to the non-null value. If there is no value, it will return an empty Optional.
+		            6: orElseThrow -  Whenever you want to throw a specific exception when the value is not present, use orElseThrow. Specify what need to be executed if no element.
+
+
+
+			    Example:-
+
+			    import java.util.stream.Stream;
+			    import java.util.*;
+
+			    class User{
+			String name;
+
+			User(String u) {
+					name = u;
+				}
+			}
+public class Main
+{
+	public static void main(String[] args) {
+
+
+		Optional<User> optional3 = Optional.empty();
+		System.out.println("Empty optioanl:" + optional3.isPresent());
+
+		System.out.println(optional3.orElse(new User("saini")));
+
+		System.out.println(optional3.orElseGet(() -> new User("rohan")));
+
+		System.out.println(optional3.orElseThrow(() -> new NullPointerException("null value is there")));
+
+		Optional<User> userOptional = Optional.of(new User("rohan"));
+		System.out.println(userOptional);
+
+		System.out.println(userOptional.filter(u -> u.name.startsWith("t")).orElse(new User("saini")));
+
+		Optional<Integer> integerOptional = Optional.of(30);
+		System.out.println(integerOptional.map(i -> i*2).get());
+
+	}
+}
+
+
+
+
+-------Misslanious--------------
+
+1 ->  java 8, using string in switch statement was not a feature. It added in java 8.
+2 -> Parallel sorting was introduced in java 8.(Arrays.parallelSort())
+Integer.divideUnsigned(a,b);   //After dividing a by b, give integer as answer.
+Integer.compareUnsigned(a,b); //If a > b return 1,  if a < b return -1, if a == b return 0.
+Integer.remainderUnsigned(a,b); //give the reminder after deviding a by b.
+
+3 -> concurrent api was introduced in java 7. But some improvement in concurrent api was introduced in java 8.
+-> New Interfaces
+-> New method in the ForkJoinPool
+-> ConcurrentHashMap additions
+-> Atomic variable options
+-> New class, StampedLock
+
+4 -> Java Memory
+-> Stack: Holds local variable and reference for the methods.
+	-> Heap: Holds all the objects.
+	->Permen : Holds all loaded classes and their metadata, static variables. And difficult for garbage collector.
+		->MetaSpace : PermGen is replaced by MetaSpace after java8. It include Optimized allocation and deallocation to avoide OutOfMemory errors. By default
+		it could grow indefinitely.
