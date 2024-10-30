@@ -1,0 +1,238 @@
+Testing Types:-
+-> Unit testing
+-> System testing
+-> Integration testing
+-> Acceptance testing
+-> Performance testing
+-> Regression testing
+-> Security testing
+-> Load testing
+-> End-to-end testing
+
+
+Advantage of Unit Testing:
+
+-> Validate the smallest units of software
+-> Find bugs easy and early
+-> save time and money
+
+class calculator{
+public int devide(int x , int y){
+return x/y;
+}
+}
+
+
+import static org.junit.jupitor.api.Assertion
+import org.junit.jupitor.api.BeforeEach
+import org.junit.jupitor.api.Test
+
+class calculatorTest{
+private calculator;
+
+@BeforeEach
+public void initTest(){
+calculator = new calculator();
+}
+
+@Test
+public void testDevide(){
+assertEquals(10 , devide(100 , 10));
+}
+}
+
+
+
+Note :- assertThrows(Exception.class, () -> functonName());
+
+
+
+-> @DisplayName("......")
+	adding a display name to the test. This annotation can be added to any method and class.
+
+--------Some other Assertion methods--------
+
+-> assertTrue();
+-> assertFalse();
+-> assertEquals();
+-> assertNotEquals();
+-> assertNotNull();
+-> assertTrrows(Exception class.class , lambda function);
+-> asserAll() - Assert that all supplied executables do not throw exceptions.
+-> assertTimeout(Duration.ofNanos(1) , () -> function name); - check weather function is taking time less than 1 nano second or not?
+
+
+
+-------Assumption---------
+
+-> Setting a condition for executing a test.
+-> If the assumption is meet, the test will be executed
+-> If the assumption is not meet, the test will not be executed.
+-> Assumption are in the org.junit.jupitor.api package'
+
+EXP- assumeTrue(), assumingThat(,);
+
+------Test Order------------
+
+-> Without specifying, we cannot predict the order.
+-> usually, this is not a problem, test should be independent
+-> If you need to order yoor test, you need to add annotation to make order.
+
+Add @TestMethodOrder(MethodOrderer.OrderAnnotation.class) -----------> add @Order(order_number) at Test function ot five order number of execution.
+
+
+-----------Nested class----------------
+
+To Make a class nested in a class, you need to add @nested annotation before the nested class.
+
+
+
+----------Dependency Injection----------
+
+-> Less tightly coupled classes
+-> separation of concern
+-> No need to manually create the instance; we get i9t handed to us.
+
+
+Note -> To enable dependency injection, we need to implement ParameterResolver class in a object class and need to override two methods "supportsParameter" and resolveParameter. And whereever we want to inject object add annotation @ExtendWith(classname.class)
+
+------------Repeted Test----------
+
+@RepeatedTest(n) :- is used to repeat a certain test n number of times.
+
+
+-----------Parameterized Tests-------------
+
+
+import static org.junit.jupiter.api.Assertions.*; 
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+// @ExtendWith(BankPRTest.class)
+
+class Student{
+    String name;
+    public Student(String n){
+        name = n;
+    }
+}
+public class MyClass{
+    @Test
+    public void testing(){
+        assertTrue(1 == 0);
+    }
+    
+    
+    @Test
+    @DisplayName("main test")
+    // @RepeatedTest(5)
+    @ParameterizedTest
+    @ValueSource(arr = {"rohan", "rohan"})
+    public static void main(String[] args){
+        String str = new String("rohan");
+        // MyClass obj = new MyClass();
+        // obj.testing();
+        // assertTrue(MathUtility.isPrime(41));
+        Student s = new Student(arr);
+        assertTrue(s.name.equals("rohan"));
+    }
+}
+
+
+
+--------------Timeout--------------
+
+-> specify maximum time for the test
+
+
+@Timeout  se to achieve this functionality
+assertTimeout - define manually
+
+
+----------Parallel execution------------
+
+-> first define   junit.jupiter.execution.parallel.enabled = True
+		  junit.jupiter.execution.parallel.config.strategy = dynamic
+
+-> add @Execution(ExecutionMode.CONCURRENT) at the test class
+
+
+-------------Lifecycle: Before and After -------------------
+
+
+Whenever you need to execute something before executing some test function, You can use @BeforeAll/@BeforeEach annotation to that function which need to be executed before any test.
+
+
+@BeforeAll -> before all test function.
+@AfterAll -> After all test function.
+
+Note - for both BeforeAll and AfterAll, that function need to be static.
+Note - If you don't want to make that function static, you need to add @TestInstance(TestInstance.LifeCycle.PER_CLASS) to the Test class.
+
+
+-------------Custom message and reports---------------
+
+-> use @DisplayName("")
+-> can use message as a parameter in assertFunction.
+
+
+
+-----------Conditional test execution-------------
+
+@EnableOnOs({OS.MAC})   -> this test case will run only on mac window system
+@EnableOnOs({OS.WINDOWS}) -> this test case will run only on window machine
+@EnableOnJre({JRE.JAVA_16}) -> this will run only with java 16
+@DisableOnJre({JRE.JAVA_14}) -> this tets function will not run with java 14.
+@EnabledIfSystemProperty(named = "os.version", matches= "x")
+@DisabledIfSystemProperty(named = "os.version", mactches = "x")
+@EnabledIfEnviromentVariable(named="USERNAME" , matches="...")
+
+
+
+@Disabled - this annotation is used to diable the test function
+@Disabled("can add message as well")
+
+
+Note - Surefire plugin is used for custom message and report
+
+
+
+
+
+--------------------Mockito--------------------
+
+often we do need external objects. This is where Mockito comes in. Testing library to help stubbing and mocking objects. Isolated version of objects instead of real objects.
+->add the dependency to use Mockito
+
+import org.mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+public class CalculateMethodMockitoTest{
+@Mock
+Calculatemethod calculatemethod;
+
+@Test
+public void testDevide(){
+assertEquals(2.0 , calculatemethod.devide(6.0,3.0));
+}
+}
+
+
+
+
+
+
+
+------------Next Step-----------
+Mockito
+PowerMock
+Java spring testing
+TDD
+
+
+
+
+
